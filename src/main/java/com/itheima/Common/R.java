@@ -3,7 +3,7 @@ package com.itheima.Common;
 import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
-
+//通用返回结果类
 @Data
 public class R<T> {
 
@@ -33,5 +33,4 @@ public class R<T> {
         this.map.put(key, value);
         return this;
     }
-
 }
