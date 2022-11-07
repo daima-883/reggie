@@ -1,19 +1,20 @@
 package com.itheima.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.Common.R;
 import com.itheima.domain.Employee;
 import com.itheima.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
+@Slf4j
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -61,5 +62,24 @@ public class EmployeeController {
 
         employeeService.save(employee);
         return R.success("新增员工成功");
+    }
+    @GetMapping("/page")
+    public R<Page> page(int page,int pageSize,String name){
+        log.info("page = {} , pageSize = {}, name = {}",page,pageSize,name);
+        //构造分页构造器
+        Page pageInfo = new Page(page, pageSize);
+
+        //构造条件构造器
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        //添加过滤条件(这里条件教程写的是StringUtils.isNotEmpty(name),我做了一点改动，因为这里他没有这个方法)
+        queryWrapper.like(StringUtils.hasLength(name),Employee::getName,name);
+
+        //添加排序条件
+        queryWrapper.orderByDesc(Employee::getUpdateTime);
+
+        //执行查询
+        employeeService.page(pageInfo,queryWrapper);
+
+        return R.success(pageInfo);
     }
 }
