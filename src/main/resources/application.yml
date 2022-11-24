@@ -17,3 +17,6 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+# 文件上传转存位置的配置
+reggie:
+  path: E:\瑞吉点餐\filetemp\
