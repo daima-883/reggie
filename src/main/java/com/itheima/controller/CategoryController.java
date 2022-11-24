@@ -7,10 +7,7 @@ import com.itheima.domain.Category;
 import com.itheima.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -35,6 +32,10 @@ public class CategoryController {
         categoryService.page(pageInfo,queryWrapper);
         return R.success(pageInfo);
     }
-
+    @DeleteMapping
+    public R<String> deleteById(Long id){
+        categoryService.remove(id);
+        return R.success("删除成功");
+    }
 
 }
