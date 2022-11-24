@@ -21,7 +21,7 @@ import java.util.UUID;
  * 这个类主要处理文件的上传与下载
  */
 @RestController
-@RequestMapping("/commen")
+@RequestMapping("/common")
 @Slf4j
 public class CommenController {
     @Value("${reggie.path}")
